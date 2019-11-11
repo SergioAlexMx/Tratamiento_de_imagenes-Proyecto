@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>451</height>
+    <width>1039</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,8 +27,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>395</width>
-           <height>353</height>
+           <width>703</width>
+           <height>392</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
@@ -60,7 +60,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>553</width>
+     <width>1039</width>
      <height>22</height>
     </rect>
    </property>
@@ -87,8 +87,17 @@
     </property>
     <addaction name="actionZoom_in"/>
     <addaction name="actionZoom_out"/>
+    <addaction name="separator"/>
+    <addaction name="actionMostrar_original"/>
+   </widget>
+   <widget class="QMenu" name="menuEditar">
+    <property name="title">
+     <string>Editar</string>
+    </property>
+    <addaction name="actionDeshacer"/>
    </widget>
    <addaction name="menuArchivo"/>
+   <addaction name="menuEditar"/>
    <addaction name="menuVista"/>
    <addaction name="menuAyuda"/>
   </widget>
@@ -154,6 +163,102 @@
    <addaction name="actionResize"/>
    <addaction name="separator"/>
   </widget>
+  <widget class="QDockWidget" name="dock_edicion">
+   <property name="windowTitle">
+    <string>Edición</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <widget class="QToolBox" name="toolBox">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="page_resize">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>154</width>
+          <height>315</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Page 1</string>
+        </attribute>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Ancho:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Alto:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="checkBox">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Mantener relación</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QSpinBox" name="spinAncho"/>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QSpinBox" name="spinAlto"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QPushButton" name="pushAplicarResize">
+           <property name="text">
+            <string>Aplicar</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="page_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>154</width>
+          <height>315</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Page 2</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionAbrir_imagen">
    <property name="text">
     <string>Abrir imagen</string>
@@ -201,6 +306,16 @@
   <action name="actionResize">
    <property name="text">
     <string>Resize</string>
+   </property>
+  </action>
+  <action name="actionDeshacer">
+   <property name="text">
+    <string>Deshacer</string>
+   </property>
+  </action>
+  <action name="actionMostrar_original">
+   <property name="text">
+    <string>Mostrar original</string>
    </property>
   </action>
  </widget>

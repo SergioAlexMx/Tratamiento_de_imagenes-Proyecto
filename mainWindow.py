@@ -11,13 +11,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtCore import QUrl, QDir
 from PyQt5.QtGui import QImage, QPixmap, QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDialog
 from PIL import Image
+from PopResize import Ui_DialogResize
+
 import imghdr
 import cv2
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.ruta = None
         self.printer = QPrinter()
         self.scaleFactor = 0.0
         MainWindow.setObjectName("MainWindow")
@@ -126,10 +130,17 @@ class Ui_MainWindow(object):
 
         self.actionAbrir_imagen.triggered.connect(self.abrirImagen)
         self.actionImprimir.triggered.connect(self.printIm)
-
-
+        self.actionResize.triggered.connect(self.resizeImagen)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def resizeImagen(self):
+        if self.ruta != None:
+            image = QImage(self.ruta)
+            dialog = QDialog(MainWindow)
+            dialog.exec_()
+
+        else:
+            QMessageBox.information(MainWindow,"Error", "Porfavor escoja una imagen")
 
     def abrirImagen(self):
         self.ruta, _ = QFileDialog.getOpenFileName(MainWindow, "Abrir imagen", QDir.currentPath(),
@@ -139,7 +150,6 @@ class Ui_MainWindow(object):
             image = QImage(self.ruta)
             imageP = Image.open(self.ruta)
 
-
             if image.isNull():  # En caso de error mostrar un mensaje grafico
                 QMessageBox.information(self, "Visualizador de imagenes",
                                         "No se pudo cargar la imagen %s" % (self.ruta))
@@ -147,9 +157,9 @@ class Ui_MainWindow(object):
             self.painter.setPixmap(QPixmap.fromImage(image))
             self.painter.setAlignment(Qt.Qt.AlignCenter)
 
-            self.label_size.setText("Tamaño: %d x %d" %(image.width(),image.height()))
-            self.label_nombre.setText("Nombre: %s " %(url.fileName()))
-            self.label_tipo.setText("Tipo: %s" %(imageP.mode))
+            self.label_size.setText("Tamaño: %d x %d" % (image.width(), image.height()))
+            self.label_nombre.setText("Nombre: %s " % (url.fileName()))
+            self.label_tipo.setText("Tipo: %s" % (imageP.mode))
             MainWindow.setWindowTitle(
                 "Editor de imagenes - %s" % (url.fileName()))  # Agregamos el nombre de la imagen al titulo de la imagen
             self.scaleFactor = 1.0
@@ -201,6 +211,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
