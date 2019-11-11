@@ -12,6 +12,7 @@ from PyQt5.QtCore import QUrl, QDir
 from PyQt5.QtGui import QImage, QPixmap, QPainter
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PIL import Image
 import imghdr
 import cv2
 
@@ -77,12 +78,12 @@ class Ui_MainWindow(object):
         self.label_tipo.setFont(font)
         self.label_tipo.setObjectName("label_tipo")
         self.verticalLayout_3.addWidget(self.label_tipo)
-        self.label = QtWidgets.QLabel(self.dockWidgetContents)
+        self.label_size = QtWidgets.QLabel(self.dockWidgetContents)
         font = QtGui.QFont()
         font.setPointSize(9)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.verticalLayout_3.addWidget(self.label)
+        self.label_size.setFont(font)
+        self.label_size.setObjectName("label")
+        self.verticalLayout_3.addWidget(self.label_size)
         self.dockInfo.setWidget(self.dockWidgetContents)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.dockInfo)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
@@ -125,19 +126,10 @@ class Ui_MainWindow(object):
 
         self.actionAbrir_imagen.triggered.connect(self.abrirImagen)
         self.actionImprimir.triggered.connect(self.printIm)
-        self.actionZoom_in.triggered.connect(self.zoomIn)
+
 
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def zoomIn(self):
-        self.scaleImage(1.25)
-
-    def zoomOut(self):
-        self.scaleImage(0.8)
-
-    def normalSize(self):
-        self.imageLabel.adjustSize()
-        self.scaleFactor = 1.0
 
     def abrirImagen(self):
         self.ruta, _ = QFileDialog.getOpenFileName(MainWindow, "Abrir imagen", QDir.currentPath(),
@@ -145,7 +137,9 @@ class Ui_MainWindow(object):
         url = QUrl.fromLocalFile(self.ruta)
         if self.ruta:
             image = QImage(self.ruta)
-            
+            imageP = Image.open(self.ruta)
+
+
             if image.isNull():  # En caso de error mostrar un mensaje grafico
                 QMessageBox.information(self, "Visualizador de imagenes",
                                         "No se pudo cargar la imagen %s" % (self.ruta))
@@ -153,6 +147,9 @@ class Ui_MainWindow(object):
             self.painter.setPixmap(QPixmap.fromImage(image))
             self.painter.setAlignment(Qt.Qt.AlignCenter)
 
+            self.label_size.setText("Tamaño: %d x %d" %(image.width(),image.height()))
+            self.label_nombre.setText("Nombre: %s " %(url.fileName()))
+            self.label_tipo.setText("Tipo: %s" %(imageP.mode))
             MainWindow.setWindowTitle(
                 "Editor de imagenes - %s" % (url.fileName()))  # Agregamos el nombre de la imagen al titulo de la imagen
             self.scaleFactor = 1.0
@@ -188,7 +185,7 @@ class Ui_MainWindow(object):
         self.dockInfo.setWindowTitle(_translate("MainWindow", "Información"))
         self.label_nombre.setText(_translate("MainWindow", "Nombre: "))
         self.label_tipo.setText(_translate("MainWindow", "Tipo de imagen: "))
-        self.label.setText(_translate("MainWindow", "Tamaño:"))
+        self.label_size.setText(_translate("MainWindow", "Tamaño:"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionAbrir_imagen.setText(_translate("MainWindow", "Abrir imagen"))
         self.actionAbrir_imagen.setShortcut(_translate("MainWindow", "Ctrl+O"))
