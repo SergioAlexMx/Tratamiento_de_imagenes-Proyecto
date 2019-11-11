@@ -2,30 +2,26 @@
 
 # Form implementation generated from reading ui file 'gui2.ui'
 #
-# Created by: PyQt5 UI code generator 5.12.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
-
-
+from PIL import Image, ImageQt
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtCore import QUrl, QDir
-from PyQt5.QtGui import QImage, QPixmap, QPainter
+from PyQt5.QtGui import QPainter, QImage, QPixmap
 from PyQt5.QtPrintSupport import QPrintDialog, QPrinter
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDialog
-from PIL import Image
-from PopResize import Ui_DialogResize
-
-import imghdr
-import cv2
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.ruta = None
+        self.imageOriginal = None
         self.printer = QPrinter()
         self.scaleFactor = 0.0
+
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(553, 451)
+        MainWindow.resize(1039, 490)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -36,7 +32,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 395, 353))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 703, 392))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -52,7 +48,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 553, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1039, 22))
         self.menubar.setObjectName("menubar")
         self.menuArchivo = QtWidgets.QMenu(self.menubar)
         self.menuArchivo.setObjectName("menuArchivo")
@@ -60,6 +56,8 @@ class Ui_MainWindow(object):
         self.menuAyuda.setObjectName("menuAyuda")
         self.menuVista = QtWidgets.QMenu(self.menubar)
         self.menuVista.setObjectName("menuVista")
+        self.menuEditar = QtWidgets.QMenu(self.menubar)
+        self.menuEditar.setObjectName("menuEditar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -94,6 +92,55 @@ class Ui_MainWindow(object):
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         MainWindow.insertToolBarBreak(self.toolBar)
+        self.dock_edicion = QtWidgets.QDockWidget(MainWindow)
+        self.dock_edicion.setObjectName("dock_edicion")
+        self.dockWidgetContents_2 = QtWidgets.QWidget()
+        self.dockWidgetContents_2.setObjectName("dockWidgetContents_2")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.dockWidgetContents_2)
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.toolBox = QtWidgets.QToolBox(self.dockWidgetContents_2)
+        self.toolBox.setObjectName("toolBox")
+        self.page_resize = QtWidgets.QWidget()
+        self.page_resize.setGeometry(QtCore.QRect(0, 0, 154, 315))
+        self.page_resize.setObjectName("page_resize")
+        self.formLayout = QtWidgets.QFormLayout(self.page_resize)
+        self.formLayout.setObjectName("formLayout")
+        self.label_2 = QtWidgets.QLabel(self.page_resize)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_2)
+        self.label_3 = QtWidgets.QLabel(self.page_resize)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
+        self.checkBox_lock = QtWidgets.QCheckBox(self.page_resize)
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.checkBox_lock.setFont(font)
+        self.checkBox_lock.setObjectName("checkBox")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.checkBox_lock)
+        self.spinAncho = QtWidgets.QSpinBox(self.page_resize)
+        self.spinAncho.setObjectName("spinAncho")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.SpanningRole, self.spinAncho)
+        self.spinAlto = QtWidgets.QSpinBox(self.page_resize)
+        self.spinAlto.setObjectName("spinAlto")
+
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.SpanningRole, self.spinAlto)
+        self.pushAplicarResize = QtWidgets.QPushButton(self.page_resize)
+        self.pushAplicarResize.setObjectName("pushAplicarResize")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.pushAplicarResize)
+        self.toolBox.addItem(self.page_resize, "")
+        self.page_2 = QtWidgets.QWidget()
+        self.page_2.setGeometry(QtCore.QRect(0, 0, 154, 315))
+        self.page_2.setObjectName("page_2")
+        self.toolBox.addItem(self.page_2, "")
+        self.verticalLayout_4.addWidget(self.toolBox)
+        self.dock_edicion.setWidget(self.dockWidgetContents_2)
+        MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.dock_edicion)
         self.actionAbrir_imagen = QtWidgets.QAction(MainWindow)
         self.actionAbrir_imagen.setShortcutVisibleInContextMenu(True)
         self.actionAbrir_imagen.setObjectName("actionAbrir_imagen")
@@ -111,6 +158,10 @@ class Ui_MainWindow(object):
         self.actionZoom_out.setObjectName("actionZoom_out")
         self.actionResize = QtWidgets.QAction(MainWindow)
         self.actionResize.setObjectName("actionResize")
+        self.actionDeshacer = QtWidgets.QAction(MainWindow)
+        self.actionDeshacer.setObjectName("actionDeshacer")
+        self.actionMostrar_original = QtWidgets.QAction(MainWindow)
+        self.actionMostrar_original.setObjectName("actionMostrar_original")
         self.menuArchivo.addAction(self.actionAbrir_imagen)
         self.menuArchivo.addAction(self.actionImprimir)
         self.menuArchivo.addSeparator()
@@ -120,27 +171,69 @@ class Ui_MainWindow(object):
         self.menuAyuda.addAction(self.actionAcerca_de_QT)
         self.menuVista.addAction(self.actionZoom_in)
         self.menuVista.addAction(self.actionZoom_out)
+        self.menuVista.addSeparator()
+        self.menuVista.addAction(self.actionMostrar_original)
+        self.menuEditar.addAction(self.actionDeshacer)
         self.menubar.addAction(self.menuArchivo.menuAction())
+        self.menubar.addAction(self.menuEditar.menuAction())
         self.menubar.addAction(self.menuVista.menuAction())
         self.menubar.addAction(self.menuAyuda.menuAction())
         self.toolBar.addAction(self.actionResize)
         self.toolBar.addSeparator()
 
         self.retranslateUi(MainWindow)
+        self.toolBox.setCurrentIndex(0)
+        self.spinAlto.setMaximum(100000)
+        self.spinAncho.setMaximum(100000)
 
         self.actionAbrir_imagen.triggered.connect(self.abrirImagen)
         self.actionImprimir.triggered.connect(self.printIm)
         self.actionResize.triggered.connect(self.resizeImagen)
+
+        self.pushAplicarResize.clicked.connect(self.resizeImagen)
+
+        self.checkBox_lock.clicked.connect(self.checkBoxLock)
+
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def resizeImagen(self):
-        if self.ruta != None:
-            image = QImage(self.ruta)
-            dialog = QDialog(MainWindow)
-            dialog.exec_()
-
+    def checkBoxLock(self):
+        if (self.checkBox_lock.isChecked()):
+            self.spinAlto.setEnabled(False)
         else:
-            QMessageBox.information(MainWindow,"Error", "Porfavor escoja una imagen")
+            self.spinAlto.setEnabled(True)
+
+    def resizeImagen(self):
+        if self.ruta is not None:
+            self.imageOriginal = QImage(self.ruta)
+            if not self.checkBox_lock.isChecked():
+
+                width = int(self.spinAncho.text())
+                height = int(self.spinAlto.text())
+
+                im1 = Image.open(self.ruta)
+                im1 = im1.resize((width, height))
+
+                qim = ImageQt.ImageQt(im1)
+
+                self.painter.setPixmap(QPixmap.fromImage(qim))
+            else:
+                im1 = Image.open(self.ruta)
+
+                new_width = int(self.spinAncho.text())
+
+                height = int(im1.height)
+                width = int(im1.width)
+                new_height = new_width * height / width
+
+
+                im1 = im1.resize((new_width, int(new_height)))
+
+                qim = ImageQt.ImageQt(im1)
+
+                self.painter.setPixmap(QPixmap.fromImage(qim))
+        else:
+            QMessageBox.information(MainWindow, "ERROR - No se puede redimencionar",
+                                    "Seleccione una imagen desde el menu de Archivo > Abrir")
 
     def abrirImagen(self):
         self.ruta, _ = QFileDialog.getOpenFileName(MainWindow, "Abrir imagen", QDir.currentPath(),
@@ -162,7 +255,8 @@ class Ui_MainWindow(object):
             self.label_tipo.setText("Tipo: %s" % (imageP.mode))
             MainWindow.setWindowTitle(
                 "Editor de imagenes - %s" % (url.fileName()))  # Agregamos el nombre de la imagen al titulo de la imagen
-            self.scaleFactor = 1.0
+            self.spinAlto.setValue(image.height())
+            self.spinAncho.setValue(image.width())
 
     def printIm(self):
         dialog = QPrintDialog(self.printer, MainWindow)
@@ -175,16 +269,6 @@ class Ui_MainWindow(object):
             p.setWindow(self.painter.pixmap().rect())
             p.drawPixmap(0, 0, self.painter.pixmap())
 
-    def scaleImage(self, factor):
-        self.scaleFactor *= factor
-        self.painter.resize(self.scaleFactor * self.painter.pixmap().size())
-
-        self.adjustScrollBar(self.scrollArea.horizontalScrollBar(), factor)
-        self.adjustScrollBar(self.scrollArea.verticalScrollBar(), factor)
-
-        self.zoomInAct.setEnabled(self.scaleFactor < 3.0)
-        self.zoomOutAct.setEnabled(self.scaleFactor > 0.333)
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -192,11 +276,19 @@ class Ui_MainWindow(object):
         self.menuArchivo.setTitle(_translate("MainWindow", "Archivo"))
         self.menuAyuda.setTitle(_translate("MainWindow", "Ayuda"))
         self.menuVista.setTitle(_translate("MainWindow", "Vista"))
+        self.menuEditar.setTitle(_translate("MainWindow", "Editar"))
         self.dockInfo.setWindowTitle(_translate("MainWindow", "Información"))
         self.label_nombre.setText(_translate("MainWindow", "Nombre: "))
         self.label_tipo.setText(_translate("MainWindow", "Tipo de imagen: "))
         self.label_size.setText(_translate("MainWindow", "Tamaño:"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+        self.dock_edicion.setWindowTitle(_translate("MainWindow", "Edición"))
+        self.label_2.setText(_translate("MainWindow", "Ancho:"))
+        self.label_3.setText(_translate("MainWindow", "Alto:"))
+        self.checkBox_lock.setText(_translate("MainWindow", "Mantener relación"))
+        self.pushAplicarResize.setText(_translate("MainWindow", "Aplicar"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_resize), _translate("MainWindow", "Reescalar imagen"))
+        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), _translate("MainWindow", "Page 2"))
         self.actionAbrir_imagen.setText(_translate("MainWindow", "Abrir imagen"))
         self.actionAbrir_imagen.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionImprimir.setText(_translate("MainWindow", "Imprimir"))
@@ -207,6 +299,8 @@ class Ui_MainWindow(object):
         self.actionZoom_in.setText(_translate("MainWindow", "Zoom in"))
         self.actionZoom_out.setText(_translate("MainWindow", "Zoom out"))
         self.actionResize.setText(_translate("MainWindow", "Resize"))
+        self.actionDeshacer.setText(_translate("MainWindow", "Deshacer"))
+        self.actionMostrar_original.setText(_translate("MainWindow", "Mostrar original"))
 
 
 if __name__ == "__main__":
